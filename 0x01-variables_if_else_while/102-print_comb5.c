@@ -1,55 +1,33 @@
 #include <stdio.h>
 /**
- * main - print posible combination with two two digit
+ * main-entry point
  *
- * Return: (0)
+ * Description: prints all possible combinations of two two-digit numbers
  *
+ * Return:0 success, non zero fail
  */
 int main(void)
 {
-	int r, x, y, z;
+	int i, j;
 
-	r = '0';
-	x = '0';
-	y = '0';
-	z = '0';
-
-	while (r <= '9')
+	for (i = 0; i < 99; i++)
 	{
-		while (x <= '9')
+		for (j = i + 1; j <= 99; j++)
 		{
-			while (y <= '9')
-			{
-				while (z <= '9')
-				{
-					if (((y + z) > (r + x) && y >= r) || r < y)
-					{
-						putchar(r);
-						putchar(x);
-						putchar(' ');
-						putchar(y);
-						putchar(z);
-						if (r + x + y + z == '179' && r == '9')
-						{
-							break;
-						}
-						else
-						{
-							putchar(',');
-							putchar(' ');
-						}
-					}
-					z++;
-				}
-				y++;
-				z = '0';
-			}
-			x++;
-			y = '0';
+			putchar('0' + i / 10);
+			putchar('0' + i % 10);
+
+			putchar(' ');
+			putchar('0' + j / 10);
+			putchar('0' + j % 10);
+
+			if (i == 98 && j == 99)
+				break;
+			putchar(',');
+			putchar(' ');
 		}
-		r++;
-		x = '0';
 	}
 	putchar('\n');
 	return (0);
 }
+
