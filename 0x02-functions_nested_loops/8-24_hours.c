@@ -1,7 +1,8 @@
 #include "main.h"
 /**
- * void jack_bauer - write function that print every minute
- * Return: 0
+ * jack_bauer - print time
+ *
+ * Description: print the time in min, for 24 hours clock
  *
  */
 void jack_bauer(void)
