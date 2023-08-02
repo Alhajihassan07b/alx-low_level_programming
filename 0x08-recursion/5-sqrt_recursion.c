@@ -3,7 +3,6 @@
  * sqrt_a - return natural number
  * @a: input
  * @b: input
- * @c: iteration
  * Return: square root
  *
  */
