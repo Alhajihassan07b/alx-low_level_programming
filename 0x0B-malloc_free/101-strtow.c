@@ -1,5 +1,6 @@
 #include "main.h"
 #include <stdlib.h>
+#include <string.h>
 /**
  * ch_free_grid - Entry point
  * @height: input
@@ -10,9 +11,10 @@ void ch_free_grid(char **grid, size_t height)
 	if (grid != NULL && height != 0)
 	{
 		for (; height > 0; height--)
-		free(grid[height]);
-			free(grid[height]);
+		{
+		free(grid[height - 1]);
 		free(grid);
+		}
 	}
 }
 /**
@@ -23,7 +25,7 @@ void ch_free_grid(char **grid, size_t height)
  */
 char **strtow(char *str)
 {
-	size_t c, height, i, j, al;
+	size_t c, height, i, al;
 	char **aout;
 
 	if (str == NULL || *str == '\0')
@@ -39,27 +41,23 @@ char **strtow(char *str)
 			free(aout);
 			return (NULL);
 		}
-	for (i = al = 0; i < height; i++)
+	for (i = 0; i < height; i++)
 	{
-		for (c = al; str[c] != '\0'; c++)
+		while (str[al] == ' ')
+			al++;
+		c = al;
+		while (str[c] != ' ' && str[c] != '\0')
+			c++;
+		aout[i] = malloc((c - al + 1) * sizeof(char));
+		if (aout[i] == NULL)
 		{
-			if (str[c] == ' ')
-				al++;
-			if (str[c] == ' ' && (str[c + 1] == ' ' || str[c + 1] == '\0'))
-			{
-				aout[i] = malloc((c - al + 2) * sizeof(char));
-				if (aout[i] == NULL)
-				{
-				ch_free_grid(aout, i);
-				return (NULL);
-				}
-				break;
-			}
+			ch_free_grid(aout, i);
+			return (NULL);
 		}
-		for (j = 0; al <= c; al++, j++)
-			aout[i][j] = str[al];
-		aout[i][j] = '\0';
+		strncpy(aout[i], &str[al], c - al);
+		aout[i][c - al] = '\0';
+		al = c + 1;
 	}
-	aout[i] = NULL;
+	aout[height] = NULL;
 	return (aout);
 }
