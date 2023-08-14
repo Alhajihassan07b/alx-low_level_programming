@@ -7,10 +7,10 @@
  * @owner: third input
  * Desc: struct dog
  */
-struct dog
+typedef struct dog
 {
 	char *name;
 	float age;
 	char *owner;
-};
+}dog_t;
 #endif
