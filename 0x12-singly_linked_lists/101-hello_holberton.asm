@@ -1,7 +1,7 @@
 global main
 extern printf
 
-	format db "Hello, Holberton", 0
+	format db 'Hello, Holberton\n',0
 
 main:
 	mov edi, format
