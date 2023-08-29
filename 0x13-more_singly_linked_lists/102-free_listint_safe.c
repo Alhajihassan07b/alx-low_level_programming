@@ -1,35 +1,69 @@
 #include "lists.h"
 
 /**
- * free_listint_safe - Frees a listint_t linked list
- * @h: Pointer to the head of the list
- * Return: Size of the list that was freed
+ * free_listp2 - frees a linked list
+ * @head: head of a list.
+ */
+void free_listp2(listp_t **head)
+{
+	listp_t *temp;
+
+	if (head != NULL)
+	{
+		while (*head != NULL)
+		{
+			temp = *head;
+			*head = (*head)->next;
+			free(temp);
+		}
+	}
+}
+
+/**
+ * free_listint_safe - frees a linked list.
+ * @h: head of a list.
+ * Return: size of the list that was freed.
  */
 size_t free_listint_safe(listint_t **h)
 {
-	listint_t *current, *temp;
-	size_t count = 0;
+	size_t nnodes = 0;
+	listp_t *hptr = NULL, *new, *add;
+	listint_t *curr;
 
-	current = *h;
-
-	while (current != NULL)
+	while (*h != NULL)
 	{
-		count++;
-		temp = current;
-		current = current->next;
-
-		/* Check if the current node points to a previous node */
-		if (temp->next >= temp)
+		/* Check for loop detection */
+		add = hptr;
+		while (add != NULL)
 		{
-			printf("Loop detected, freeing %d\n", temp->n);
-			free(temp);
-			*h = NULL;
-			return (count);
+			if (*h == (listint_t *)(add->p))
+			{
+				*h = NULL;
+				free_listp2(&hptr);
+				return (nnodes);
+			}
+			add = add->next;
 		}
 
-		free(temp);
+		/* Create new node in the auxiliary list */
+		new = malloc(sizeof(listp_t));
+		if (new == NULL)
+		{
+			free_listp2(&hptr);
+			exit(98);
+		}
+		new->p = (void *)*h;
+		new->next = hptr;
+		hptr = new;
+
+		/* Free current node from the main list */
+		curr = *h;
+		*h = (*h)->next;
+		free(curr);
+		nnodes++;
 	}
 
-	*h = NULL;
-	return (count);
+	/* Clean up auxiliary list */
+	free_listp2(&hptr);
+	return (nnodes);
 }
