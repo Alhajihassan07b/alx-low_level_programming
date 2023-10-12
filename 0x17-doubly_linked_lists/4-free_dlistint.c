@@ -2,7 +2,6 @@
 /**
  * free_dlistint - function that free list
  * @head: pointer
- * 
  */
 void free_dlistint(dlistint_t *head)
 {
@@ -12,6 +11,6 @@ void free_dlistint(dlistint_t *head)
 	{
 		current = head;
 		head = head->next;
-		free(current);
+	free(current);
 	}
 }
